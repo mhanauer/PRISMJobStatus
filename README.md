@@ -30,7 +30,7 @@ colnames(dat7) = c("Job")
 head(dat7)
 
 dat8 = readWorksheetFromFile("Merriville Training 7272016.xlsx", sheet = 1, startCol = 1, endCol = 1)
-dat8 = dat8[-c(1),] # This gets rid of the first row for a one column
+dat8 = as.data.frame(dat8)# This gets rid of the first row for a one column
 colnames(dat8) = c("Job")
 head(dat8)
 
@@ -38,6 +38,8 @@ dat9 = readWorksheetFromFile("MCCSC LGBTQA+ Competency Training_assessment data.
 colnames(dat9) = c("Job")
 head(dat9)
 
-
-
-
+dat = rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8, dat9)
+dat$ID = 1:nrow(dat)
+datLevels = as.factor(dat$Job)
+levels(datLevels)
+#### Grab total teachers, then elementary, then middle + high, then admin,  then college student
