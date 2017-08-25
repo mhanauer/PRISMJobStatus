@@ -46,8 +46,18 @@ levels(datLevels)
 total = 1063
 teacherAll = apply(dat, 2, function(x){ifelse(x == "High School", 1, ifelse(x == "M + HS", 1, ifelse(x == "E + HS", 1, ifelse(x == "Elementary", 1, ifelse(x == "Middle School", 1, ifelse(x == "Teacher", 1, ifelse(x == "E + M + HS", 1, ifelse(x == "MS + E", 1, ifelse(x == "Teacher/School Counselor", 1, 0)))))))))})
 teacherAllN = sum(teacherAll);teacherAllN
-teacherAllP = teacherAllN/ total; teacherAllP
+teacherAllP = round(teacherAllN/ total,2); teacherAllP
+# Middle and high school teachers  taking the percentage of teachers that are middle + high and elementrary
+teacherMH = apply(dat, 2, function(x){ifelse(x == "M + HS", 1,ifelse(x == "Middle School", 1, ifelse(x == "High School", 1, 0)))})
+teacherMHN = sum(teacherMH);teacherMHN
+teacherMHP = round(teacherMHN/ teacherAllN,2); teacherMHP
+# Elementary teachers
+teacherE = as.data.frame(apply(dat, 2, function(x){ifelse(x == "Elementary",1,0)}))
+teacherEN = sum(teacherE)
+teacherEP = round(teacherEN/ teacherAllN, 2); head(teacherEP)
+# Admin
+admin = as.data.frame(apply(dat,2,function(x){ifelse(x == "Administration",1, ifelse(x == "Principle", 1, ifelse(x =="Admin", 1, ifelse(x == "Administrator", 1, ifelse(x == "Admin + E", 1, ifelse(x =="Guidance", 1, 0))))))}))
+adminN = sum(admin)
+adminP = round(adminN/teacherAllN,2); adminP
 
-teacherElem = apply(dat, 2, function(x){ifelse(x == "M + HS", 1, ifelse(x == "E + HS", 1, ifelse(x == "Middle School", 1, ifelse(x == "E + M + HS" , 1, ifelse(x == "MS + E", 1, 0)))))})
-teacherElemN = sum(teacherElem);teacherElemN
-teacherElemP = teacherElemN/ total; teacherElemP
+datJobs = cbind(teacherAllP, teacherEP, teacherMHP, adminP); datJobs
