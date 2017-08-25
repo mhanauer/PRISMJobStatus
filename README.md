@@ -25,25 +25,22 @@ dat6 = readWorksheetFromFile("MCCSC LGBTQA+ Competency Training_assessment data.
 colnames(dat6) = c("Job")
 head(dat6)
 
-dat7 = readWorksheetFromFile("MCCSC LGBTQA+ Competency Training_assessment data.xlsx", sheet = 2, startCol = 2, endCol = 2)
+dat7 = readWorksheetFromFile("MCCSC LGBTQA+ Competency Training_assessment data.xlsx", sheet = 3, startCol = 2, endCol = 2)
 colnames(dat7) = c("Job")
 head(dat7)
 
 dat8 = readWorksheetFromFile("Merriville Training 7272016.xlsx", sheet = 1, startCol = 1, endCol = 1)
-dat8 = as.data.frame(dat8)# This gets rid of the first row for a one column
+dat8 = as.data.frame(dat8)
 colnames(dat8) = c("Job")
 head(dat8)
 
-dat9 = readWorksheetFromFile("MCCSC LGBTQA+ Competency Training_assessment data.xlsx", sheet = 2, startCol = 2, endCol = 2)
-colnames(dat9) = c("Job")
-head(dat9)
 
-dat = rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8, dat9)
+dat = rbind(dat1, dat2, dat3, dat4, dat5, dat6, dat7, dat8)
 dat$ID = 1:nrow(dat)
 datLevels = as.factor(dat$Job)
 levels(datLevels)
 #### Grab total teachers, then elementary, then middle + high, then admin,  then college student
-total = 1037
+total = 1041
 teacherAll = apply(dat, 2, function(x){ifelse(x == "High School", 1, ifelse(x == "M + HS", 1, ifelse(x == "E + HS", 1, ifelse(x == "Elementary", 1, ifelse(x == "Middle School", 1, ifelse(x == "Teacher", 1, ifelse(x == "E + M + HS", 1, ifelse(x == "MS + E", 1, ifelse(x == "Teacher/School Counselor", 1, 0)))))))))})
 teacherAllN = sum(teacherAll);teacherAllN
 teacherAllP = round(teacherAllN/ total,2); teacherAllP
@@ -54,9 +51,6 @@ teacherMHP = round(teacherMHN/ teacherAllN,2); teacherMHP
 # Elementary teachers
 teacherE = as.data.frame(apply(dat, 2, function(x){ifelse(x == "Elementary",1,0)}))
 teacherEN = sum(teacherE); teacherEN
-# Admin
-admin = as.data.frame(apply(dat,2,function(x){ifelse(x == "Administration",1, ifelse(x == "Principle", 1, ifelse(x =="Admin", 1, ifelse(x == "Administrator", 1, ifelse(x == "Admin + E", 1, ifelse(x =="Guidance", 1, 0))))))}))
-adminN = sum(admin)
-adminP = round(adminN/teacherAllN,2); adminP
+
 
 datJobs = cbind(teacherAllP, teacherEP, teacherMHP); datJobs
